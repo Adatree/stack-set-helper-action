@@ -1,7 +1,7 @@
 from unittest.mock import ANY, patch, MagicMock
 from click.testing import CliRunner
 
-from stack_set_helper_action.stackset_helper import deploy, StackSetHelper
+from stack_set_helper_action.stackset_helper import StackSetHelper
 
 
 @patch("boto3.client")
@@ -180,16 +180,3 @@ def test_deploy_stack_set_to_account_update(mock_boto):
         },
         CallAs="DELEGATED_ADMIN",
     )
-
-
-def test_raise_exception_when_empty_account_list_provided():
-    runner = CliRunner()
-    result = runner.invoke(deploy, [
-        "--stackset_name", "ignore",
-        "--stackset-description", "ignore",
-        "--template-path", "ignore",
-        "--org-ou-id", "ignore",
-        "--account-ids", ""
-    ]
-                           )
-    assert result.exit_code == 2

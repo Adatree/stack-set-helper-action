@@ -1,33 +1,40 @@
+import os
+
+from stack_set_helper_action.exceptions import StackSetHelperException
+from stack_set_helper_action.stackset_helper import StackSetHelper
 
 
+def run():
+    operation = os.getenv("OPERATION")
+    stackset_name = os.getenv("STACKSET_NAME")
+    stackset_description = os.getenv("STACKSET_DESCRIPTION", stackset_name)
+    template_path = os.getenv("TEMPLATE_PATH")
+    org_ou_ids = os.getenv("ORG_OU_IDS").split(",")
+    account_ids = os.getenv("ACCOUNT_IDS", None)
+    regions = os.getenv("REGIONS").split(",")
+    debug = os.environ.get("DEBUG") in ["true", "True"]
+    if operation == "deploy":
+        deploy(stackset_name, stackset_description, template_path, org_ou_ids, account_ids, regions, debug)
+    if operation == "delete":
+        delete(stackset_name, org_ou_ids, regions, debug)
 
-@click.group("stackset-helper")
-def run_ssh():
-    pass
 
-
-@run_ssh.command()
-@click.option("--stackset-name", type=str, default=(), required=True)
-@click.option("--stackset-description", type=str, default=(), required=True)
-@click.option("--template-path", type=str, default=(), required=True)
-@click.option("--org-ou-ids", type=str, default=(), multiple=True, required=True)
-@click.option("--account-ids", type=str, default=(), multiple=True, required=False)
-@click.option("--region", type=str, default=(), multiple=True, required=True)
-@click.option("--debug", is_flag=True)
-def deploy(
-    stackset_name, stackset_description, template_path, org_ou_ids, account_ids, region, debug
-):
+def deploy(stackset_name, stackset_description, template_path, org_ou_ids, account_ids, regions, debug):
     if account_ids and len(account_ids) == 0:
-        raise DeployToolsException("Cannot process an empty account list")
-    StackSetHelper(debug=debug).deploy(
-        stackset_name, stackset_description, template_path, [*org_ou_ids], [*account_ids], [*region]
+        raise StackSetHelperException("Cannot process an empty account list")
+    StackSetHelper(debug).deploy(
+        stackset_name,
+        stackset_description,
+        template_path,
+        org_ou_ids,
+        account_ids,
+        regions
     )
 
 
-@run_ssh.command()
-@click.option("--stackset-name", type=str, default=(), required=True)
-@click.option("--org-ou-id", type=str, default=(), multiple=True, required=True)
-@click.option("--region", type=str, default=(), multiple=True, required=True)
-@click.option("--debug", is_flag=True)
-def delete(stackset_name, org_ou_id, region, debug):
-    StackSetHelper(debug=debug).delete(stackset_name, [*org_ou_id], [*region])
+def delete(stackset_name, org_ou_ids, regions, debug):
+    StackSetHelper(debug).delete(stackset_name, org_ou_ids, regions)
+
+
+if __name__ == "__main__":
+    run()
