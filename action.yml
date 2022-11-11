@@ -1,0 +1,56 @@
+---
+name: 'Custom GitHub Action'
+description: 'A GitHub Action that takes an input and returns the square of the number'
+inputs:
+  operation:
+    description: 'Operation to be performed, can be a deploy or delete'
+    required: true
+    type: choice
+    options:
+      - deploy
+      - delete
+  stackset_name:
+    description: 'Name of StackSet on which operation is being performed'
+    required: true
+  stackset_description:
+    description: 'Description of StackSet'
+    required: false
+  template_path:
+    description: 'Template path'
+    required: true
+  org_ou_ids:
+    description: 'AWS Org OU ids'
+    required: true
+  account_ids:
+    description: 'AWS Account ids to limit the operations to; currently only supported for "deploy" operation'
+    required: false
+  debug:
+    description: 'Used to turn debug mode on or off'
+    required: false
+    default: 'false'
+runs:
+  using: 'composite'
+  steps:
+    - name: Install Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.8.15'
+    - name: Install Dependencies
+      run: poetry install
+      shell: bash
+    - name: Pass Inputs to Shell
+      run: |
+        echo "OPERATION=${{ inputs.operation }}" >> $GITHUB_ENV
+        echo "OPERATION=${{ inputs.operation }}" >> $GITHUB_ENV
+        echo "OPERATION=${{ inputs.operation }}" >> $GITHUB_ENV
+        echo "OPERATION=${{ inputs.operation }}" >> $GITHUB_ENV
+        echo "OPERATION=${{ inputs.operation }}" >> $GITHUB_ENV
+        echo "OPERATION=${{ inputs.operation }}" >> $GITHUB_ENV
+        echo "OPERATION=${{ inputs.operation }}" >> $GITHUB_ENV
+        echo "OPERATION=${{ inputs.operation }}" >> $GITHUB_ENV
+        echo "OPERATION=${{ inputs.operation }}" >> $GITHUB_ENV
+        echo "OPERATION=${{ inputs.operation }}" >> $GITHUB_ENV
+      shell: bash
+    - name: Run StackSetHelper
+      run: python stack_set_helper_action/main.py
+      shell: bash
