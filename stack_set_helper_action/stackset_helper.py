@@ -245,7 +245,3 @@ class StackSetHelper:
                 self._delete_stack_instances(stackset_name, org_ou_id, region)
         self._delete_stackset(stackset_name)
         self.logger.info(f"Deleting stackset: '{stackset_name}' - success")
-
-
-if __name__ == "__main__":
-    sys.exit(run_ssh())
