@@ -28,10 +28,6 @@ inputs:
     description: 'Comma-separated list of regions to deploy to'
     required: false
     default: 'ap-southeast-2'
-  debug:
-    description: 'Used to turn debug mode on or off'
-    required: false
-    default: 'false'
 runs:
   using: 'composite'
   steps:
@@ -54,7 +50,6 @@ runs:
         echo "ORG_OU_IDS=${{ inputs.org_ou_ids }}" >> $GITHUB_ENV
         echo "ACCOUNT_IDS=${{ inputs.account_ids }}" >> $GITHUB_ENV
         echo "REGION=${{ inputs.region }}" >> $GITHUB_ENV
-        echo "DEBUG=${{ inputs.debug }}" >> $GITHUB_ENV
       shell: bash
     - name: Run StackSetHelper
       run: python stack_set_helper_action/main.py
