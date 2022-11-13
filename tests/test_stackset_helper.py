@@ -1,5 +1,4 @@
 from unittest.mock import ANY, patch, MagicMock
-from click.testing import CliRunner
 
 from stack_set_helper_action.stackset_helper import StackSetHelper
 
