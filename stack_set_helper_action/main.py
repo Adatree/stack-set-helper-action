@@ -10,7 +10,7 @@ def run():
     stackset_description = os.getenv("STACKSET_DESCRIPTION", stackset_name)
     template_path = os.getenv("TEMPLATE_PATH")
     org_ou_ids = os.getenv("ORG_OU_IDS").split(",")
-    account_ids = os.getenv("ACCOUNT_IDS", None)
+    account_ids = os.getenv("ACCOUNT_IDS", "").split(",")
     regions = os.getenv("REGIONS").split(",")
     debug = os.environ.get("DEBUG") in ["true", "True"]
     if operation == "deploy":
