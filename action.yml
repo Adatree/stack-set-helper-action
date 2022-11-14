@@ -1,0 +1,70 @@
+---
+name: 'Custom GitHub Action'
+description: 'A GitHub Action that takes an input and returns the square of the number'
+inputs:
+  operation:
+    description: 'Operation to be performed, can be a deploy or delete'
+    required: true
+    type: choice
+    options:
+      - deploy
+      - delete
+  stackset_name:
+    description: 'Name of StackSet on which operation is being performed'
+    required: true
+  stackset_description:
+    description: 'Description of StackSet'
+    required: false
+  template_path:
+    description: 'Template path'
+    required: true
+  org_ou_ids:
+    description: 'Comma-separated list of AWS Org OU ids'
+    required: true
+  account_ids:
+    description: 'Comma-separated list of AWS Account ids to limit the operations to; currently only supported for "deploy" operation'
+    required: false
+  regions:
+    description: 'Comma-separated list of regions to deploy to'
+    required: false
+    default: 'ap-southeast-2'
+runs:
+  using: 'composite'
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Install Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10.7'
+    - name: Install Poetry
+      uses: snok/install-poetry@v1.3.1
+      with:
+        virtualenvs-create: true
+        virtualenvs-in-project: true
+      shell: bash
+    - name: Load cached venv
+      id: cached-poetry-dependencies
+      uses: actions/cache@v3
+      with:
+        path: .venv
+        key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+    - name: Install Dependencies
+      run: poetry install
+      shell: bash
+    - name: Pass Inputs to Shell
+      # There is an active issue that prevents inputs from being passed directly into runners;
+      # The workaround is to it manually here
+      # See following link for details: https://github.com/actions/runner/issues/665
+      run: |
+        echo "OPERATION=${{ inputs.operation }}" >> $GITHUB_ENV
+        echo "STACKSET_NAME=${{ inputs.stackset_name }}" >> $GITHUB_ENV
+        echo "STACKSET_DESCRIPTION=${{ inputs.stackset_description }}" >> $GITHUB_ENV
+        echo "TEMPLATE_PATH=${{ inputs.template_path }}" >> $GITHUB_ENV
+        echo "ORG_OU_IDS=${{ inputs.org_ou_ids }}" >> $GITHUB_ENV
+        echo "ACCOUNT_IDS=${{ inputs.account_ids }}" >> $GITHUB_ENV
+        echo "REGION=${{ inputs.region }}" >> $GITHUB_ENV
+      shell: bash
+    - name: Run StackSetHelper
+      run: python stack_set_helper_action/main.py
+      shell: bash
