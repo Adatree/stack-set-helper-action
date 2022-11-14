@@ -16,7 +16,9 @@ def test_deploy_with_account_ids(monkeypatch):
     monkeypatch.setenv("ORG_OU_IDS", org_ou_ids)
     monkeypatch.setenv("ACCOUNT_IDS", account_ids)
     monkeypatch.setenv("REGIONS", regions)
-    with patch("stack_set_helper_action.main.StackSetHelper.deploy") as stackset_helper_deploy:
+    with patch(
+        "stack_set_helper_action.main.StackSetHelper.deploy"
+    ) as stackset_helper_deploy:
         run()
         stackset_helper_deploy.assert_called_with(
             stackset_name,
@@ -34,7 +36,9 @@ def test_deploy_without_account_ids(monkeypatch):
     monkeypatch.setenv("TEMPLATE_PATH", template_path)
     monkeypatch.setenv("ORG_OU_IDS", org_ou_ids)
     monkeypatch.setenv("REGIONS", regions)
-    with patch("stack_set_helper_action.main.StackSetHelper.deploy") as stackset_helper_deploy:
+    with patch(
+        "stack_set_helper_action.main.StackSetHelper.deploy"
+    ) as stackset_helper_deploy:
         run()
         stackset_helper_deploy.assert_called_with(
             stackset_name,
@@ -52,10 +56,10 @@ def test_delete(monkeypatch):
     monkeypatch.setenv("ORG_OU_IDS", org_ou_ids)
     monkeypatch.setenv("ACCOUNT_IDS", account_ids)
     monkeypatch.setenv("REGIONS", regions)
-    with patch("stack_set_helper_action.main.StackSetHelper.delete") as stackset_helper_delete:
+    with patch(
+        "stack_set_helper_action.main.StackSetHelper.delete"
+    ) as stackset_helper_delete:
         run()
         stackset_helper_delete.assert_called_with(
-            stackset_name,
-            [org_ou_ids],
-            ['ap-southeast-2', 'us-east-1']
+            stackset_name, [org_ou_ids], ["ap-southeast-2", "us-east-1"]
         )

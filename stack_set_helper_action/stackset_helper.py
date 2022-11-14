@@ -8,7 +8,7 @@ logging.basicConfig(format="%(asctime)s %(name)s %(levelname)s %(message)s")
 
 
 class StackSetHelper:
-    def __init__(self, debug, default_region='ap-southeast-2'):
+    def __init__(self, debug, default_region="ap-southeast-2"):
         self.logger = logging.getLogger(self.__class__.__name__)
         if debug:
             self.logger.setLevel("DEBUG")
@@ -110,7 +110,7 @@ class StackSetHelper:
         return stack_instance_summaries
 
     def _create_stack_instances(self, stackset_name, org_ou_ids, account_ids, regions):
-        deployment_targets={"OrganizationalUnitIds": org_ou_ids}
+        deployment_targets = {"OrganizationalUnitIds": org_ou_ids}
         if account_ids:
             deployment_targets["Accounts"] = account_ids
             deployment_targets["AccountFilterType"] = "INTERSECTION"
@@ -134,7 +134,7 @@ class StackSetHelper:
         return operation_id
 
     def _update_stack_instances(self, stackset_name, org_ou_ids, account_ids, regions):
-        deployment_targets={"OrganizationalUnitIds": org_ou_ids}
+        deployment_targets = {"OrganizationalUnitIds": org_ou_ids}
         if account_ids:
             deployment_targets["Accounts"] = account_ids
             deployment_targets["AccountFilterType"] = "INTERSECTION"
@@ -224,7 +224,13 @@ class StackSetHelper:
             self.logger.info(f"Stackset '{stackset_name}': Deleting - nothing to do")
 
     def deploy(
-        self, stackset_name, stackset_description, template_path, org_ou_ids, account_ids=None, regions=None
+        self,
+        stackset_name,
+        stackset_description,
+        template_path,
+        org_ou_ids,
+        account_ids=None,
+        regions=None,
     ):
         self.logger.info(
             f"Deploying stackset: '{stackset_name}' (org_ou_ids: {org_ou_ids}, regions: {regions})"
@@ -233,7 +239,9 @@ class StackSetHelper:
 
         for org_ou_id in org_ou_ids:
             for region in regions:
-                self._deploy_stack_instances(stackset_name, org_ou_id, account_ids, region)
+                self._deploy_stack_instances(
+                    stackset_name, org_ou_id, account_ids, region
+                )
         self.logger.info(f"Deploying stackset: '{stackset_name}' - success")
 
     def delete(self, stackset_name, org_ou_ids, regions):

@@ -1,4 +1,4 @@
-from unittest.mock import ANY, patch, MagicMock
+from unittest.mock import ANY, MagicMock, patch
 
 from stack_set_helper_action.stackset_helper import StackSetHelper
 
@@ -8,9 +8,7 @@ from stack_set_helper_action.stackset_helper import StackSetHelper
 def test_deploy_stack_set_create(mock_boto):
     cfn_client = MagicMock()
     cfn_client.describe_stack_set_operation.return_value = {
-        "StackSetOperation": {
-            "Status": "SUCCEEDED"
-        }
+        "StackSetOperation": {"Status": "SUCCEEDED"}
     }
     cfn_client._get_stack_instance_summaries.return_value = False
     mock_boto.return_value = cfn_client
@@ -25,7 +23,7 @@ def test_deploy_stack_set_create(mock_boto):
         stackset_description=stackset_description,
         template_path=template_path,
         org_ou_ids=org_ou_ids,
-        regions=regions
+        regions=regions,
     )
     assert cfn_client.describe_stack_set_operation.call_count == 2
     assert cfn_client.update_stack_instances.call_count == 0
@@ -47,17 +45,11 @@ def test_deploy_stack_set_create(mock_boto):
 def test_deploy_stack_set_update(mock_boto):
     cfn_client = MagicMock()
     cfn_client.describe_stack_set_operation.return_value = {
-        "StackSetOperation": {
-            "Status": "SUCCEEDED"
-        }
+        "StackSetOperation": {"Status": "SUCCEEDED"}
     }
     cfn_client_paginator = MagicMock()
     cfn_client_paginator.paginate.return_value = [
-        {
-            "Summaries": [{
-                "StackSetId": "stack_set_id"
-            }]
-        }
+        {"Summaries": [{"StackSetId": "stack_set_id"}]}
     ]
     cfn_client.get_paginator.return_value = cfn_client_paginator
     mock_boto.return_value = cfn_client
@@ -72,7 +64,7 @@ def test_deploy_stack_set_update(mock_boto):
         stackset_description=stackset_description,
         template_path=template_path,
         org_ou_ids=org_ou_ids,
-        regions=regions
+        regions=regions,
     )
     assert cfn_client.describe_stack_set_operation.call_count == 2
     assert cfn_client.create_stack_instances.call_count == 0
@@ -94,9 +86,7 @@ def test_deploy_stack_set_update(mock_boto):
 def test_deploy_stack_set_to_account_create(mock_boto):
     cfn_client = MagicMock()
     cfn_client.describe_stack_set_operation.return_value = {
-        "StackSetOperation": {
-            "Status": "SUCCEEDED"
-        }
+        "StackSetOperation": {"Status": "SUCCEEDED"}
     }
     cfn_client._get_stack_instance_summaries.return_value = False
     mock_boto.return_value = cfn_client
@@ -113,14 +103,17 @@ def test_deploy_stack_set_to_account_create(mock_boto):
         template_path=template_path,
         org_ou_ids=org_ou_ids,
         account_ids=account_ids,
-        regions=regions
+        regions=regions,
     )
     assert cfn_client.describe_stack_set_operation.call_count == 2
     assert cfn_client.update_stack_instances.call_count == 0
     cfn_client.create_stack_instances.assert_called_once_with(
         StackSetName=stackset_name,
-        DeploymentTargets={"OrganizationalUnitIds": org_ou_ids, "Accounts": account_ids,
-                           "AccountFilterType": "INTERSECTION"},
+        DeploymentTargets={
+            "OrganizationalUnitIds": org_ou_ids,
+            "Accounts": account_ids,
+            "AccountFilterType": "INTERSECTION",
+        },
         Regions=regions,
         OperationPreferences={
             "RegionConcurrencyType": "PARALLEL",
@@ -136,17 +129,11 @@ def test_deploy_stack_set_to_account_create(mock_boto):
 def test_deploy_stack_set_to_account_update(mock_boto):
     cfn_client = MagicMock()
     cfn_client.describe_stack_set_operation.return_value = {
-        "StackSetOperation": {
-            "Status": "SUCCEEDED"
-        }
+        "StackSetOperation": {"Status": "SUCCEEDED"}
     }
     cfn_client_paginator = MagicMock()
     cfn_client_paginator.paginate.return_value = [
-        {
-            "Summaries": [{
-                "StackSetId": "stack_set_id"
-            }]
-        }
+        {"Summaries": [{"StackSetId": "stack_set_id"}]}
     ]
     cfn_client.get_paginator.return_value = cfn_client_paginator
     mock_boto.return_value = cfn_client
@@ -163,14 +150,17 @@ def test_deploy_stack_set_to_account_update(mock_boto):
         template_path=template_path,
         org_ou_ids=org_ou_ids,
         account_ids=account_ids,
-        regions=regions
+        regions=regions,
     )
     assert cfn_client.describe_stack_set_operation.call_count == 2
     assert cfn_client.create_stack_instances.call_count == 0
     cfn_client.update_stack_instances.assert_called_once_with(
         StackSetName=stackset_name,
-        DeploymentTargets={"OrganizationalUnitIds": org_ou_ids, "Accounts": account_ids,
-                           "AccountFilterType": "INTERSECTION"},
+        DeploymentTargets={
+            "OrganizationalUnitIds": org_ou_ids,
+            "Accounts": account_ids,
+            "AccountFilterType": "INTERSECTION",
+        },
         Regions=regions,
         OperationPreferences={
             "RegionConcurrencyType": "PARALLEL",

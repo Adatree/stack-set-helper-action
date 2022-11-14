@@ -15,22 +15,25 @@ def run():
         deploy(
             stackset_name,
             stackset_description,
-            template_path, org_ou_ids,
+            template_path,
+            org_ou_ids,
             account_ids if account_ids != [""] else None,
-            regions
+            regions,
         )
     if operation == "delete":
         delete(stackset_name, org_ou_ids, regions)
 
 
-def deploy(stackset_name, stackset_description, template_path, org_ou_ids, account_ids, regions):
+def deploy(
+    stackset_name, stackset_description, template_path, org_ou_ids, account_ids, regions
+):
     StackSetHelper(debug=True).deploy(
         stackset_name,
         stackset_description,
         template_path,
         org_ou_ids,
         account_ids,
-        regions
+        regions,
     )
 
 
