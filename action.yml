@@ -42,7 +42,6 @@ runs:
         cp ${{ github.action_path}}/pyproject.toml pyproject.toml
     - name: Install Poetry
       uses: snok/install-poetry@v1.3.1
-      working-directory: ${{ github.action_path}}
       with:
         virtualenvs-create: true
         virtualenvs-in-project: true
