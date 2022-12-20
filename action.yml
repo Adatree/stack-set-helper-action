@@ -63,5 +63,5 @@ runs:
         echo "REGION=${{ inputs.region }}" >> $GITHUB_ENV
       shell: bash
     - name: Run StackSetHelper
-      run: python ${{ github.action_path}}/stack_set_helper_action/main.py
+      run: python stack_set_helper_action/main.py
       shell: bash
