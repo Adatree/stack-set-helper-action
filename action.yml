@@ -29,40 +29,13 @@ inputs:
     required: false
     default: 'ap-southeast-2'
 runs:
-  using: 'composite'
-  steps:
-    - name: Install Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.10.7'
-    - name: Install Poetry
-      uses: snok/install-poetry@v1.3.1
-      with:
-        path: ${{ github.action_path}}
-        virtualenvs-create: true
-        virtualenvs-in-project: true
-    - name: Load cached venv
-      id: cached-poetry-dependencies
-      uses: actions/cache@v3
-      with:
-        path: ${{ github.action_path}}/.venv
-        key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
-    - name: Install Dependencies
-      run: poetry install
-      shell: bash
-    - name: Pass Inputs to Shell
-      # There is an active issue that prevents inputs from being passed directly into runners;
-      # The workaround is to it manually here
-      # See following link for details: https://github.com/actions/runner/issues/665
-      run: |
-        echo "OPERATION=${{ inputs.operation }}" >> $GITHUB_ENV
-        echo "STACKSET_NAME=${{ inputs.stackset_name }}" >> $GITHUB_ENV
-        echo "STACKSET_DESCRIPTION=${{ inputs.stackset_description }}" >> $GITHUB_ENV
-        echo "TEMPLATE_PATH=${{ inputs.template_path }}" >> $GITHUB_ENV
-        echo "ORG_OU_IDS=${{ inputs.org_ou_ids }}" >> $GITHUB_ENV
-        echo "ACCOUNT_IDS=${{ inputs.account_ids }}" >> $GITHUB_ENV
-        echo "REGION=${{ inputs.region }}" >> $GITHUB_ENV
-      shell: bash
-    - name: Run StackSetHelper
-      run: python ${{ github.action_path}}/stack_set_helper_action/main.py
-      shell: bash
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+        - ${{ inputs.operation }}
+        - ${{ inputs.stackset_name }}
+        - ${{ inputs.stackset_description }}
+        - ${{ inputs.template_path }}
+        - ${{ inputs.org_ou_ids }}
+        - ${{ inputs.account_ids }}
+        - ${{ inputs.region }}
