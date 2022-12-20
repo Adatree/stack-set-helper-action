@@ -35,17 +35,18 @@ runs:
       uses: actions/setup-python@v4
       with:
         python-version: '3.10.7'
-    - name: Copy poetry files
-      shell: bash
-      run: |
-        cp ${{ github.action_path}}/poetry.lock poetry.lock
-        cp ${{ github.action_path}}/pyproject.toml pyproject.toml
-        mv ${{ github.action_path}}/stack_set_helper_action stack_set_helper_action
     - name: Install Poetry
       uses: snok/install-poetry@v1.3.1
       with:
+        path: ${{ github.action_path}}
         virtualenvs-create: true
         virtualenvs-in-project: true
+    - name: Load cached venv
+      id: cached-poetry-dependencies
+      uses: actions/cache@v3
+      with:
+        path: .venv
+        key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
     - name: Install Dependencies
       run: poetry install
       shell: bash
@@ -63,5 +64,5 @@ runs:
         echo "REGION=${{ inputs.region }}" >> $GITHUB_ENV
       shell: bash
     - name: Run StackSetHelper
-      run: python stack_set_helper_action/main.py
+      run: python ${{ github.action_path}}/stack_set_helper_action/main.py
       shell: bash
