@@ -40,6 +40,7 @@ runs:
       run: |
         cp ${{ github.action_path}}/poetry.lock poetry.lock
         cp ${{ github.action_path}}/pyproject.toml pyproject.toml
+        mv ${{ github.action_path}}/stack_set_helper_action stack_set_helper_action
     - name: Install Poetry
       uses: snok/install-poetry@v1.3.1
       with:
