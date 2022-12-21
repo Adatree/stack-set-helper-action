@@ -6,7 +6,7 @@ export STACKSET_DESCRIPTION=$3
 export TEMPLATE_PATH=$4
 export ORG_OU_IDS=$5
 export ACCOUNT_IDS=$6
-export REGION=$7
+export REGIONS=$7
 
 env
 
