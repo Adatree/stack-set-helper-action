@@ -38,4 +38,4 @@ runs:
     - ${{ inputs.template_path }}
     - ${{ inputs.org_ou_ids }}
     - ${{ inputs.account_ids }}
-    - ${{ inputs.region }}
+    - ${{ inputs.regions }}
