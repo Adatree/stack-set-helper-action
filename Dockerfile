@@ -19,4 +19,4 @@ RUN python3 -m venv ./venv && \
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 # Set the default command to run the project
-CMD ["/entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
