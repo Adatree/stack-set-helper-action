@@ -1,17 +1,22 @@
 FROM python:3.10.7
 
 # Install Poetry and update the package list
-RUN curl -sSL https://install.python-poetry.org | python3 - && \
-    poetry self update
+RUN pip3 install poetry
 
-# Set the working directory to the project root
-WORKDIR /app
+# Install AWS cli
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
+    unzip awscliv2.zip && \
+    ./aws/install && \
+    rm "awscliv2.zip"
 
 # Copy the project files
 COPY . .
+ENV VIRTUAL_ENV=./venv
 
-# Install project dependencies
-RUN poetry install --no-dev
+RUN python3 -m venv ./venv && \
+    chmod -x "./venv/bin/activate" && \
+    poetry install --no-dev
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 # Set the default command to run the project
-ENTRYPOINT ["/entrypoint.sh"]
+CMD ["/entrypoint.sh"]
