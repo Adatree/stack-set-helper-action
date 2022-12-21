@@ -32,10 +32,10 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-        - ${{ inputs.operation }}
-        - ${{ inputs.stackset_name }}
-        - ${{ inputs.stackset_description }}
-        - ${{ inputs.template_path }}
-        - ${{ inputs.org_ou_ids }}
-        - ${{ inputs.account_ids }}
-        - ${{ inputs.region }}
+    - ${{ inputs.operation }}
+    - ${{ inputs.stackset_name }}
+    - ${{ inputs.stackset_description }}
+    - ${{ inputs.template_path }}
+    - ${{ inputs.org_ou_ids }}
+    - ${{ inputs.account_ids }}
+    - ${{ inputs.region }}
