@@ -8,5 +8,5 @@ ORG_OU_IDS=$5
 ACCOUNT_IDS=$6
 REGION=$7
 
-. ./venv/bin/activate
-python stack_set_helper_action/main.py
+. /./venv/bin/activate
+python /stack_set_helper_action/main.py
