@@ -1,12 +1,14 @@
 #!/bin/sh -l
 
-OPERATION=$1
-STACKSET_NAME=$2
-STACKSET_DESCRIPTION=$3
-TEMPLATE_PATH=$4
-ORG_OU_IDS=$5
-ACCOUNT_IDS=$6
-REGION=$7
+export OPERATION=$1
+export STACKSET_NAME=$2
+export STACKSET_DESCRIPTION=$3
+export TEMPLATE_PATH=$4
+export ORG_OU_IDS=$5
+export ACCOUNT_IDS=$6
+export REGION=$7
+
+env
 
 . /./venv/bin/activate
 python /stack_set_helper_action/main.py
