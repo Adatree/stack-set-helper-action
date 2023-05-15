@@ -8,7 +8,7 @@ packages = [{include = "stack_set_helper_action"}]
 
 [tool.poetry.dependencies]
 python = "3.10.7"
-boto3 = "^1.24.46"
+boto3 = "^1.26.133"
 
 
 [tool.poetry.dev-dependencies]
