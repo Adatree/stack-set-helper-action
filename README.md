@@ -10,7 +10,7 @@
    ```bash
    export PATH="$HOME/.local/bin:$PATH"
    ```
-* (optional) pre-commit for checking build pipeline
+* pre-commit - for automatically fix linting errors
   ```bash
   pip install pre-commit
   ```
