@@ -33,7 +33,7 @@ def test_deploy_stack_set_create(mock_boto):
         Regions=regions,
         OperationPreferences={
             "RegionConcurrencyType": "PARALLEL",
-            "FailureToleranceCount": 0,
+            "FailureToleranceCount": 20,
             "MaxConcurrentCount": 100,
         },
         CallAs="DELEGATED_ADMIN",
@@ -74,7 +74,7 @@ def test_deploy_stack_set_update(mock_boto):
         Regions=regions,
         OperationPreferences={
             "RegionConcurrencyType": "PARALLEL",
-            "FailureToleranceCount": 0,
+            "FailureToleranceCount": 20,
             "MaxConcurrentCount": 100,
         },
         CallAs="DELEGATED_ADMIN",
@@ -117,7 +117,7 @@ def test_deploy_stack_set_to_account_create(mock_boto):
         Regions=regions,
         OperationPreferences={
             "RegionConcurrencyType": "PARALLEL",
-            "FailureToleranceCount": 0,
+            "FailureToleranceCount": 20,
             "MaxConcurrentCount": 100,
         },
         CallAs="DELEGATED_ADMIN",
@@ -164,7 +164,7 @@ def test_deploy_stack_set_to_account_update(mock_boto):
         Regions=regions,
         OperationPreferences={
             "RegionConcurrencyType": "PARALLEL",
-            "FailureToleranceCount": 0,
+            "FailureToleranceCount": 20,
             "MaxConcurrentCount": 100,
         },
         CallAs="DELEGATED_ADMIN",
