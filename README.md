@@ -15,5 +15,22 @@
   pip install pre-commit
   ```
 
+## Usage
+
+For updating dependencies to latest:
+```bash
+poetry update <dependency>
+```
+
+For running tests locally:
+```bash
+poetry run pytest
+```
+
+For triaging `pre-commit` config issues:
+```bash
+pre-commit run --all-files
+```
+
 ## References:
 * https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/cloudformation.html
