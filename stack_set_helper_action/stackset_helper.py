@@ -77,7 +77,7 @@ class StackSetHelper:
             AutoDeployment={"Enabled": True, "RetainStacksOnAccountRemoval": False},
             OperationPreferences={
                 "RegionConcurrencyType": "PARALLEL",
-                "FailureToleranceCount": 0,
+                "FailureToleranceCount": 20,
                 "MaxConcurrentCount": 100,
             },
             CallAs="DELEGATED_ADMIN",
