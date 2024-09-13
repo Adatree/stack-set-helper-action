@@ -1,7 +1,10 @@
-FROM python:3.10.7
+FROM python:3.12.6
 
 # Install Poetry and update the package list
 RUN pip3 install poetry
+
+# Set working directory
+WORKDIR /app
 
 # Install AWS cli
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
@@ -10,13 +13,19 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
     rm "awscliv2.zip"
 
 # Copy the project files
-COPY . .
-ENV VIRTUAL_ENV=./venv
+COPY ./stack_set_helper_action ./stack_set_helper_action
+COPY poetry.lock .
+COPY pyproject.toml .
+COPY entrypoint.sh .
 
-RUN python3 -m venv ./venv && \
-    chmod -x "./venv/bin/activate" && \
-    poetry install --no-dev
+ENV PYTHONPATH=/app
+ENV VIRTUAL_ENV=./venv
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
+RUN python3 -m venv ./venv
+RUN chmod +x "./venv/bin/activate"
+RUN poetry install --no-dev
+RUN chmod +x "./entrypoint.sh"
+
 # Set the default command to run the project
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["./entrypoint.sh"]
