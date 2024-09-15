@@ -34,6 +34,4 @@ jobs:
       - name: Test docker
         run: |
           docker build -t my_python_app .
-          docker run -it my_python_app
-          pwd
-          ls -l
+          docker run my_python_app -c "pwd && ls -l"
