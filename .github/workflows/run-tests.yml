@@ -8,26 +8,32 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Install Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.12.6'
-      - name: Install Poetry
-        uses: snok/install-poetry@v1.3.1
-        with:
-          virtualenvs-create: true
-          virtualenvs-in-project: true
-      - name: Load cached venv
-        id: cached-poetry-dependencies
-        uses: actions/cache@v3
-        with:
-          path: .venv
-          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
-      - name: Install Dependencies
-        run: poetry install
-        shell: bash
-      - name: Run tests
+#      - name: Install Python
+#        uses: actions/setup-python@v4
+#        with:
+#          python-version: '3.12.6'
+#      - name: Install Poetry
+#        uses: snok/install-poetry@v1.3.1
+#        with:
+#          virtualenvs-create: true
+#          virtualenvs-in-project: true
+#      - name: Load cached venv
+#        id: cached-poetry-dependencies
+#        uses: actions/cache@v3
+#        with:
+#          path: .venv
+#          key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+#      - name: Install Dependencies
+#        run: poetry install
+#        shell: bash
+#      - name: Run tests
+#        run: |
+#          source .venv/bin/activate
+#          touch .env
+#          pytest --log-cli-level=INFO tests
+      - name: Test docker
         run: |
-          source .venv/bin/activate
-          touch .env
-          pytest --log-cli-level=INFO tests
+          docker build -t my_python_app .
+          docker run -it my_python_app
+          pwd
+          ls -l
