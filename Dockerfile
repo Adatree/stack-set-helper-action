@@ -28,4 +28,4 @@ RUN poetry install --no-dev
 RUN chmod +x "./entrypoint.sh"
 
 # Set the default command to run the project
-ENTRYPOINT ["./entrypoint.sh"]
+ENTRYPOINT ["/app/entrypoint.sh"]
