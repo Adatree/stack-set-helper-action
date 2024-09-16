@@ -9,4 +9,4 @@ export ACCOUNT_IDS=$6
 export REGIONS=$7
 
 . /app/venv/bin/activate
-python stack_set_helper_action/main.py
+python /app/stack_set_helper_action/main.py
