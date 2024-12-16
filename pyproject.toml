@@ -14,7 +14,7 @@ boto3 = "^1.35.18"
 [tool.poetry.dev-dependencies]
 flake8 = "^7.1.0"
 pylint = "^3.2.0"
-pytest = "^8.3.0"
+pytest = "^8.3.4"
 
 [tool.pytest.ini_options]
 pythonpath = [
