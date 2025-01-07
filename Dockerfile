@@ -14,6 +14,7 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
 
 # Copy the project files
 COPY ./stack_set_helper_action ./stack_set_helper_action
+COPY README.md .
 COPY poetry.lock .
 COPY pyproject.toml .
 COPY entrypoint.sh .
@@ -24,7 +25,7 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 RUN python3 -m venv ./venv
 RUN chmod +x "./venv/bin/activate"
-RUN poetry install --no-dev
+RUN poetry install --without dev
 RUN chmod +x "./entrypoint.sh"
 
 # Set the default command to run the project
